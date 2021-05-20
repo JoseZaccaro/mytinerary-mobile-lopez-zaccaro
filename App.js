@@ -1,21 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import Index from './Index'
+import Cities from './Cities';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+const Stack = createStackNavigator();
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer style={styles.container}>
+      <Stack.Navigator  style={styles.container}>
+        <Stack.Screen
+          name="Home"
+          component={Index}
+          options={{ title: 'Welcome to MyTinerary' }}
+          style={styles.container}
+          />
+        <Stack.Screen name="Cities" component={Cities} style={styles.container}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  container:{
+    width:'100%',
+    height:'100%'
+  }
 });
