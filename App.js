@@ -1,31 +1,20 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import Index from './Index'
-import Cities from './Cities';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-const Stack = createStackNavigator();
+import React, { useState } from 'react';
+import {applyMiddleware, createStore} from 'redux'
+import { Provider} from 'react-redux'
+import mainReducer from './redux/reducers/mainReducer'
+import thunk from 'redux-thunk'
+import App2 from './App2'
 
+const reduxStore = createStore(mainReducer,applyMiddleware(thunk))
 
-export default function App() {
+const App = () => {
   return (
-    <NavigationContainer style={styles.container}>
-      <Stack.Navigator  style={styles.container}>
-        <Stack.Screen
-          name="Home"
-          component={Index}
-          options={{ title: 'Welcome to MyTinerary' }}
-          style={styles.container}
-          />
-        <Stack.Screen name="Cities" component={Cities} style={styles.container}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={reduxStore}>
+      <App2/>
+    </Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container:{
-    width:'100%',
-    height:'100%'
-  }
-});
+
+export default App
+// getIsDrawerOpenState
