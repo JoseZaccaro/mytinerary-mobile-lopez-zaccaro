@@ -1,30 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Text, TouchableWithoutFeedback, View, StyleSheet, Image, ImageBackground, TouchableOpacity} from 'react-native'
 
-const CityCard = ({city})=>{
-    // console.log(city)
-    
+const CityCard = (props)=>{
+    const {city } = props
     if(!city){
         return null
     }
-    city.imagen = ".."+city.image
-    console.log(imagen)
+    useEffect(()=>{
+
+    })
+    
+    const imagenUri = city.image.slice(14,(city.image.length - 4))
     return(
         <View>
-            {/* <TouchableWithoutFeedback onPress={()=>props.navigation.navigate() console.log("tocasteCity")} style={[styles.cityCard]} >
-                <Text>
-
-                </Text>
-            </TouchableWithoutFeedback> */}
             <View style={styles.contenedorFotoTexto}>
-                <TouchableOpacity style={styles.contenedorFoto} onPress={()=>/*props.navigation.navigate()*/ console.log("tocasteImagen")}>
-                    <ImageBackground style={styles.foto} source={city.imagen}>
-                        <Text>
+                <TouchableOpacity style={styles.contenedorFoto} activeOpacity={0.7} onPress={()=> props.navigation.navigate('city',{city:city})}>
+                    <ImageBackground loadingIndicatorSource={{uri:'https://loading.io/asset/482091'}} style={styles.foto} source={{uri:`https://mytinerary-lopez-zaccaro.herokuapp.com/assets/cities/${imagenUri}.jpg`}
+                }>  
+                    <View style={styles.contenidoFoto}>
+                        <Text style={styles.textoCity}>
                             {city.city}
                         </Text>
-                        <Text>
+                        <Text style={styles.textoCity}>
                             {city.country}
                         </Text>
+                    </View>
                     </ImageBackground>
                 </TouchableOpacity>
                 <Text>
@@ -37,24 +37,35 @@ const CityCard = ({city})=>{
 
 }
 const styles = StyleSheet.create({
-    foto:{
-        width:'70%',
-        height:'100%',
-        marginLeft:10,
-        
+    contenedorFotoTexto:{
+        flexDirection:'row',
+        width:'90%',
+        height:200,
+        borderRadius:25,
+        marginTop:20,
+        marginLeft:20,
+        overflow:'hidden',
     },
     contenedorFoto:{
         width:'100%',
-        height:'100%'
+        height:'100%',
     },
-    contenedorFotoTexto:{
-        flexDirection:'row',
+     foto:{
         width:'100%',
-        height:200,
-        borderRadius:10,
-        marginTop:10,
-        overflow:'hidden'
+        height:'100%',
+        justifyContent:'flex-end'
+
+    },
+    contenidoFoto:{
+        alignItems:'center',
+        backgroundColor:'#rgba(0,0,0,0.5)',
+        paddingVertical:7.5
+    },
+    textoCity:{
+        color:'white',
+        fontSize:18
     }
+
 })
 
 export default CityCard

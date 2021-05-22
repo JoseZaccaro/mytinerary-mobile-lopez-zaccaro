@@ -1,56 +1,57 @@
+import { LinearGradient } from 'expo-linear-gradient'
 import React, { useState } from 'react'
-import {View,StyleSheet, ScrollView, Image, TouchableHighlight} from 'react-native'
+import {View,StyleSheet, ScrollView, Image, TouchableHighlight, TouchableOpacity} from 'react-native'
 import { Icon } from 'react-native-elements'
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp
+  } from 'react-native-responsive-screen';
+
+
 const NavBar = ({props})=>{
 
     const [state, setState] = useState({
         isOpen:false
     })
     const {header, logo, navText, burger, burgerPosition} = styles
-    return (
-            <ScrollView >
+
+    return(
                 <View style={header}>
-                    <TouchableHighlight onPress={() => props.openDrawer()} >
-                        <Image source={require('../assets/burger-menu.png')} style={!state.isOpen ? burger : burgerPosition} />
-                    </TouchableHighlight>
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => props.openDrawer()} >
+                        <Image source={require('../assets/burger-menu.png')} style={burger} />
+                    </TouchableOpacity>
                     {
-                    props.canGoBack() ?
-                    <TouchableHighlight onPress={() => props.goBack()} >
-                        {/* <Image source={require('../assets/burger-menu.png')} style={!state.isOpen ? burger : burgerPosition} /> */}
-                        <Icon name="arrow-back" type="material" color="#1591d8" size={35}/>
-                    </TouchableHighlight>
-                    : null
+                        props.canGoBack() ?
+                        <TouchableOpacity style={styles.iconoDerecho} activeOpacity={0.7} onPress={() => props.goBack()} >
+                            <Icon name="arrow-back" type="material" color="#1591d8" size={35}/>
+                        </TouchableOpacity>
+                        :<TouchableOpacity style={styles.iconoDerecho} activeOpacity={0.7} onPress={() => props.navigate('cities')} >
+                                <Icon name="map-marker" color="#c92b2a" type="material-community" size={35} />
+                         </TouchableOpacity>
                     }
                 </View>
-            </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     header:{
-        width:'100%',
-        height:50,
-        backgroundColor:'black',
+        width:wp('100%'),
+        height:hp('10%'),
+        backgroundColor:'#1d1d1f',
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center'
-    },
-    logo:{
-        width:46,
-        height:46,
-        marginLeft:10,
     },
     navText:{
         color:'white',
         fontSize:20
     },
     burger:{
-        width:46,
-        marginLeft:5,
+        width:wp('15%'),
+        marginLeft:hp('1.5%'),
     },
-    burgerPosition:{
-        width:46,
-        marginLeft:400
+    iconoDerecho:{
+        marginRight:wp('3%')
     }
 
 })

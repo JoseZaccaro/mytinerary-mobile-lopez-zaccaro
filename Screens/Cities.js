@@ -3,24 +3,8 @@ import {View,StyleSheet, ScrollView, Text,StatusBar} from 'react-native'
 import { connect } from 'react-redux';
 import CityCard from '../Components/CityCard';
 import NavBar from '../Components/NavBar'
-import citiesActions from '../redux/actions/citiesActions'
 
 class Cities extends React.Component {
-    state = {
-        
-    }
-    componentDidMount(){
-            this.props.getAllCitiesReference();
-    }
-
-    // static getDerivedStateFromProps(props, state) {
-    //     if (props.citiesReference.length !== 0) {
-    //       return { loaded: true };
-    //     }
-    //     return null;
-    // }
-
-
 
     render(){
         return (
@@ -29,7 +13,7 @@ class Cities extends React.Component {
                 {
                     this.props.cities.map((city, index)=>{
                         return(
-                            <CityCard key={index} city={city}/>
+                            <CityCard key={index} city={city} navigation={this.props.navigation}/>
                             )
                     })
                 }
@@ -44,7 +28,7 @@ const styles = StyleSheet.create({
     scroll:{
         height:'100%',
         width:'100%',
-        backgroundColor:'wheat'
+        backgroundColor:'white'
     }
 
 })
@@ -57,9 +41,7 @@ const mapStateToProps = (state) => {
     };
   };
   
-  const mapDispatchToProps = {
-    getAllCitiesReference: citiesActions.getAllCities,
-  };
+
   
-  export default connect(mapStateToProps, mapDispatchToProps)(Cities);
+  export default connect(mapStateToProps)(Cities);
   
