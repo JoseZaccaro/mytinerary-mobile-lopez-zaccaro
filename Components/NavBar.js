@@ -8,24 +8,25 @@ import {
   } from 'react-native-responsive-screen';
 
 
-const NavBar = ({props})=>{
-
+const NavBar = (allProps)=>{
+    const {navigation, route} = allProps
     const [state, setState] = useState({
         isOpen:false
     })
     const {header, logo, navText, burger, burgerPosition} = styles
-
+    
+    // console.log(route)
     return(
                 <View style={header}>
-                    <TouchableOpacity activeOpacity={0.7} onPress={() => props.openDrawer()} >
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.openDrawer()} >
                         <Image source={require('../assets/burger-menu.png')} style={burger} />
                     </TouchableOpacity>
                     {
-                        props.canGoBack() ?
-                        <TouchableOpacity style={styles.iconoDerecho} activeOpacity={0.7} onPress={() => props.goBack()} >
+                        route.name !== 'home' ?
+                        <TouchableOpacity style={styles.iconoDerecho} activeOpacity={0.7} onPress={() => navigation.goBack()} >
                             <Icon name="arrow-back" type="material" color="#1591d8" size={35}/>
                         </TouchableOpacity>
-                        :<TouchableOpacity style={styles.iconoDerecho} activeOpacity={0.7} onPress={() => props.navigate('cities')} >
+                        :<TouchableOpacity style={styles.iconoDerecho} activeOpacity={0.7} onPress={() => navigation.navigate('cities')} >
                                 <Icon name="map-marker" color="#c92b2a" type="material-community" size={35} />
                          </TouchableOpacity>
                     }
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
     }
 
 })
+
 
 
 export default NavBar

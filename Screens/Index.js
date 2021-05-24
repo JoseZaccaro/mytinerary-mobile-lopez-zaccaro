@@ -5,6 +5,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Carousel from '../Components/Carousel';
 import { connect } from 'react-redux';
 import citiesActions from '../redux/actions/citiesActions'
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp
+  } from 'react-native-responsive-screen';
 
 
 // const animation = (props)=>{
@@ -15,13 +19,13 @@ import citiesActions from '../redux/actions/citiesActions'
 
 const Index = (props)=>{
     const {fondo1, logoHero, hero, heroTitle, heroText, getStarted, getStartedSignIn, getStartedText, signIn, signUp} = styles
-
     useEffect(()=>{
             props.getAllCitiesReference();
+            // props.addListener('focus',)
     })
         return (<>
                 <View style={[styles.View]}> 
-                <NavBar props={props.navigation}/> 
+                <NavBar navigation={props.navigation} route={props.route}/> 
                     <View style={hero}>
                         <Image source={require('../assets/logo.png')} style={logoHero}></Image>
                         <Text style={heroTitle}>MYTINERARY!</Text>    
@@ -53,49 +57,48 @@ const styles = StyleSheet.create({
      },
     
     logoHero:{
-        width:100,
-        height:100
+        width:wp('25%'),
+       height:wp('25%')
     },
     hero:{
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'center',
-        paddingRight:30,
-        marginTop:5
+        paddingHorizontal:wp('10%'),
+        marginTop:hp('1%')
     },
     heroTitle:{
-        fontSize:26,
+        fontSize:wp('8.5%'),
         fontWeight:'bold',
         color:'#1d1d1f',
     },
     heroText:{
-        fontSize:16,
+        fontSize:wp('4%'),
         textAlign:'center',
-        paddingHorizontal:25,
+        paddingHorizontal:wp('10%'),
         fontWeight:'bold',
         color:'#1d1d1f',
-
-        marginBottom:20
+        marginBottom:hp('5%')
     },
     getStarted:{
-        marginVertical:15,
+        marginVertical:20,
         borderStyle:'solid',
         borderWidth:1,
         borderRadius:200,
         borderColor:'#rgba(228,228,228,.4)',
         overflow:'hidden',
-        width:'75%',
+        width:wp('80%'),
         alignSelf:'center',
         justifyContent:'center'
     },
     getStartedSignIn:{
-        marginVertical:15,
+        marginBottom:hp('5%'),
         borderStyle:'solid',
         borderWidth:1,
         borderRadius:200,
         borderColor:'#rgba(228,228,228,.4)',
         overflow:'hidden',
-        width:'50%',
+        width:wp('45%'),
         alignSelf:'center',
         justifyContent:'center'
     },
@@ -103,19 +106,19 @@ const styles = StyleSheet.create({
         color:'#141518',
         textAlign:'center',
         paddingVertical:10,
-        paddingHorizontal:10,
     },
     signUp:{
-        fontSize:22,
-        height:50,
+        fontSize:wp('6%'),
+        height:hp('7.5%'),
         justifyContent:'center'
     },
     signIn:{
-        fontSize:18,
-        height:50,
+        fontSize:wp('5%'),
+        height:hp('7%'),
         justifyContent:'center',
     }
 })
+
 const mapDispatchToProps = {
     getAllCitiesReference: citiesActions.getAllCities,
   };

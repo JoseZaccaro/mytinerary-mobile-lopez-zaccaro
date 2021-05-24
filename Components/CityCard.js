@@ -10,12 +10,12 @@ const CityCard = (props)=>{
 
     })
     
-    const imagenUri = city.image.slice(14,(city.image.length - 4))
+    const imagenUri = city.image.slice(14,(city.image.length))
     return(
         <View>
             <View style={styles.contenedorFotoTexto}>
                 <TouchableOpacity style={styles.contenedorFoto} activeOpacity={0.7} onPress={()=> props.navigation.navigate('city',{city:city})}>
-                    <ImageBackground loadingIndicatorSource={{uri:'https://loading.io/asset/482091'}} style={styles.foto} source={{uri:`https://mytinerary-lopez-zaccaro.herokuapp.com/assets/cities/${imagenUri}.jpg`}
+                    <ImageBackground loadingIndicatorSource={{uri:'https://loading.io/asset/482091'}} style={styles.foto} source={{uri:`https://mytinerary-lopez-zaccaro.herokuapp.com/assets/cities/${imagenUri}`}
                 }>  
                     <View style={styles.contenidoFoto}>
                         <Text style={styles.textoCity}>

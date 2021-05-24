@@ -9,7 +9,7 @@ class Cities extends React.Component {
     render(){
         return (
             <ScrollView style={styles.scroll}>
-                <NavBar props={this.props.navigation}/>
+                <NavBar navigation={this.props.navigation} route={this.props.route}/>
                 {
                     this.props.cities.map((city, index)=>{
                         return(

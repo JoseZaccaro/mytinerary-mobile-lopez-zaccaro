@@ -1,24 +1,28 @@
 import Carousel from 'react-native-snap-carousel';
 import React from 'react'
 import {ImageBackground, View, Text, StyleSheet, Dimensions, TouchableOpacity} from 'react-native'
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp
+  } from 'react-native-responsive-screen';
 
 const styles = StyleSheet.create({
     slide:{
-        width:'100%',
-        height:200,
+        width:wp('80%'),
+        height:hp('30%'),
         borderRadius:20,
         overflow:'hidden',
         alignItems:'center',
         justifyContent:'flex-end'
     },
     title:{
-        fontSize:16,
+        fontSize:wp('4.5%'),
         color:'white',
         backgroundColor:'#rgba(0,0,0,0.4)',
         width:'100%',
         textAlign:'center',
-        paddingTop:4,
-        paddingBottom:5
+        paddingVertical:hp('1%'),
+        // paddingBottom:hp('1%')
     }
 })
 
@@ -59,8 +63,8 @@ export default class MyCarousel extends React.Component {
                 ref={(c) => { this._carousel = c; }}
                 data={this.items}
                 renderItem={this._renderItem}
-                sliderWidth={Dimensions.get("window").width}
-                itemWidth={Dimensions.get("window").width - 75}
+                sliderWidth={wp('100%')}
+                itemWidth={wp('80%')}
                 sliderHeight={300}
                 itemHeight={300}
             />

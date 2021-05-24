@@ -1,11 +1,15 @@
 import React from 'react'
 import NavBar from '../Components/NavBar'
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp
+  } from 'react-native-responsive-screen';
 
 const SignIn = (props)=>{
 
 
     return(
-        <NavBar props={props.navigation}/>
+        <NavBar navigation={props.navigation} route={props.route}/>
     )
 }
 

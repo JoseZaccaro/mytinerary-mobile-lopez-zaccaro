@@ -7,8 +7,7 @@ import itinerariesReducer from './itinerariesReducer'
 const mainReducer = combineReducers({
     citiesReducer,
     itinerariesReducer,
-    authReducer
-    
+    authReducer    
     
 })
 
