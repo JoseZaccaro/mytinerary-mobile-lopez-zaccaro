@@ -32,16 +32,20 @@ const Index = (props)=>{
                     </View>
                     <Text style={heroText}>Find your perfect trip, designed by insiders who know and love their cities!</Text>
                     <Carousel navigation={props.navigation}/>
-                    <TouchableHighlight  underlayColor="#rgba(0,0,0,0.5)" style={getStarted} onPress={()=> props.navigation.navigate('signup')}>
-                        <LinearGradient start={{x:0,y:0}} end={{x:0.8,y:0.8}}   colors={['#rgba(22,233,218,0.4)', '#rgba(52,119,247,0.4)']}>
-                            <Text style={[getStartedText, signUp]}> Sign Up for Free!</Text>
-                        </LinearGradient>
-                    </TouchableHighlight>
-                    <TouchableHighlight underlayColor="#rgba(0,0,0,0.5)"  style={getStartedSignIn} onPress={()=> props.navigation.navigate('signin')}>
-                        <LinearGradient start={{x:0,y:0}} end={{x:0.8,y:0.8}} colors={['#rgba(22,233,218,0.4)', '#rgba(52,119,247,0.4)']}>
-                            <Text style={[getStartedText, signIn]}> Or Sign In!</Text>
-                        </LinearGradient>
-                    </TouchableHighlight>
+                    {!props.user ?
+                    <> 
+                        <TouchableHighlight  underlayColor="#rgba(0,0,0,0.5)" style={getStarted} onPress={()=> props.navigation.navigate('signup')}>
+                            <LinearGradient start={{x:0,y:0}} end={{x:0.8,y:0.8}}   colors={['#rgba(22,233,218,0.4)', '#rgba(52,119,247,0.4)']}>
+                                <Text style={[getStartedText, signUp]}> Sign Up for Free!</Text>
+                            </LinearGradient>
+                        </TouchableHighlight>
+                        <TouchableHighlight underlayColor="#rgba(0,0,0,0.5)"  style={getStartedSignIn} onPress={()=> props.navigation.navigate('signin')}>
+                            <LinearGradient start={{x:0,y:0}} end={{x:0.8,y:0.8}} colors={['#rgba(22,233,218,0.4)', '#rgba(52,119,247,0.4)']}>
+                                <Text style={[getStartedText, signIn]}> Or Sign In!</Text>
+                            </LinearGradient>
+                        </TouchableHighlight>
+                    </>
+                    :null}
             </View>
                
 
@@ -119,8 +123,15 @@ const styles = StyleSheet.create({
     }
 })
 
+const mapStateToProps = state =>{
+    return{
+        user : state.authReducer.user
+    }
+}
+
 const mapDispatchToProps = {
     getAllCitiesReference: citiesActions.getAllCities,
+    
   };
 
-export default connect(null,mapDispatchToProps)(Index)
+export default connect(mapStateToProps,mapDispatchToProps)(Index)

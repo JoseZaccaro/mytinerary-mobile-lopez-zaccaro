@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios"
 
 const authActions = {
@@ -29,16 +30,17 @@ const authActions = {
             }
         }
     },
-    signInLS:(userToken)=>{
+    signInLS:()=>{
         return async(dispatch, getState)=>{
             try{
-            const userToLogg = await axios.get("https://mytinerary-lopez-zaccaro.herokuapp.com/api/auth/signInLS",{
+                const token = await AsyncStorage.getItem('token')
+                const userToLogg = await axios.get("https://mytinerary-lopez-zaccaro.herokuapp.com/api/auth/signInLS",{
                 headers:{
-                'Authorization':'Bearer '+ userToken
+                'Authorization':'Bearer '+ token
             }
             })
             if (userToLogg.data.success) {
-                dispatch({type:"SIGN_IN", payload:{...userToLogg.data, token:userToken}})
+                dispatch({type:"SIGN_IN", payload:{...userToLogg.data, token}})
             }else{
                 return(userToLogg.data)
             }

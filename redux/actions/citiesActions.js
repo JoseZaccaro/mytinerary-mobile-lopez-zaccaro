@@ -18,8 +18,8 @@ const citiesActions = {
     },
     findCities: (event) => {
         return (dispatch, getState)=>{
-        
-            dispatch({type: 'FIND_CITIES', payload: {initialValue: event.target.value.toLowerCase().trim(), search: event.target.id,}})
+
+            dispatch({type: 'FIND_CITIES', payload: {initialValue: event.toLowerCase().trim(), search:"city",}})
         }        
     },
     check: (event) => {

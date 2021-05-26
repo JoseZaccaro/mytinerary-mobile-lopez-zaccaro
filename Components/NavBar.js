@@ -18,12 +18,13 @@ const NavBar = (allProps)=>{
     // console.log(route)
     return(
                 <View style={header}>
+
                     <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.openDrawer()} >
                         <Image source={require('../assets/burger-menu.png')} style={burger} />
                     </TouchableOpacity>
                     {
                         route.name !== 'home' ?
-                        <TouchableOpacity style={styles.iconoDerecho} activeOpacity={0.7} onPress={() => navigation.goBack()} >
+                        <TouchableOpacity style={styles.iconoDerecho} activeOpacity={0.7} onPress={() => allProps.signUpping ? allProps.setCreateAccount(false) : navigation.goBack()} >
                             <Icon name="arrow-back" type="material" color="#1591d8" size={35}/>
                         </TouchableOpacity>
                         :<TouchableOpacity style={styles.iconoDerecho} activeOpacity={0.7} onPress={() => navigation.navigate('cities')} >

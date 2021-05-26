@@ -3,6 +3,7 @@ import {View,StyleSheet, ScrollView, Text,StatusBar} from 'react-native'
 import { connect } from 'react-redux';
 import CityCard from '../Components/CityCard';
 import NavBar from '../Components/NavBar'
+import Search from '../Components/Search';
 
 class Cities extends React.Component {
 
@@ -10,6 +11,7 @@ class Cities extends React.Component {
         return (
             <ScrollView style={styles.scroll}>
                 <NavBar navigation={this.props.navigation} route={this.props.route}/>
+                <Search />
                 {
                     this.props.cities.map((city, index)=>{
                         return(

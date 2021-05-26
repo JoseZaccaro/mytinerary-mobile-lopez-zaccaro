@@ -33,16 +33,8 @@ export default class MyCarousel extends React.Component {
         {id: 12, altText: 'Miami',src:'Miami.jpg',caption: 'USA'},
         {id: 8, altText: 'Moscow',src:'Moscow.jpg',caption: 'Russia'},
         {id: 9, altText: 'Sao Paulo',src:'SaoPaulo.jpg',caption: 'Brazil'},
-        {id: 3, altText: 'Paris',src:'Paris.jpg',caption: 'France'},
-        {id: 1, altText: 'Tokyo', src:'Tokyo.jpg',caption: 'Japan'},
-        {id: 5, altText: 'London',src:'London.jpg',caption: 'United Kingdom'},
-        {id: 6, altText: 'Osaka',src:'Osaka.jpg',caption: 'Japan'},
-        {id: 2, altText: 'New York',src:'NewYork.jpg',caption: 'USA'},
-        {id: 4, altText: 'Seoul',src:'Seoul.jpg',caption: 'South Korea'},
-        {id: 7, altText: 'Shanghai',src:'Shanghai.jpg',caption: 'China'},
-        {id: 11, altText: 'Toronto',src:'Toronto.jpg',caption: 'Canada'},
-    
-      ]
+        {id: 3, altText: 'Paris',src:'Paris.jpg',caption: 'France'}
+    ]
 
     _renderItem = ({item, index}) => {
                 return (

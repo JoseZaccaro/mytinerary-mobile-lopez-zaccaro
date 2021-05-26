@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {View,StyleSheet, ScrollView, Text,StatusBar, ImageBackground, Image, TouchableHighlight, TouchableOpacity} from 'react-native'
+import {View,StyleSheet, ScrollView, Text,StatusBar, ImageBackground, Image, TouchableHighlight, TouchableOpacity, ActivityIndicator} from 'react-native'
 import { connect } from 'react-redux';
 import NavBar from '../Components/NavBar'
 import citiesActions from '../redux/actions/citiesActions'
@@ -22,18 +22,18 @@ class City extends React.Component {
         this.props.navigation.addListener('focus',()=>{
                 this.props.findItineraries(this.props.route.params.city._id)
             })
-            this.props.navigation.addListener('blur', ()=>{
-                this.props.resetItineraries()
-                this.setState({viewMore:false,viewImage:false})
+        this.props.navigation.addListener('blur', ()=>{
+            this.props.resetItineraries()
+            this.setState({viewMore:false,viewImage:false})
         })
     }
 
     render(){
         const {city} = this.props.route.params
         const imagenUri = city.image.slice(14,(city.image.length))
-        // const descriptionSliced = 
         if(this.props.itineraries.length < 1){
-            return null
+            return <ActivityIndicator color="red" size={100} style={{marginTop:hp('30%')}}/>
+            
         }
         return (
             <ScrollView>
@@ -57,17 +57,20 @@ class City extends React.Component {
                             }</Text>
                             <TouchableOpacity style={styles.touchableViewMore} activeOpacity={0.7} onPress={()=>this.setState({...this.state,viewMore:!this.state.viewMore})}>
                                 <LinearGradient start={{x:0,y:0}} end={{x:0.8,y:0.8}} colors={['#rgba(22,233,218,0.4)', '#rgba(52,119,247,0.4)']}>
-                                    <Text style={styles.textoBoton}> View More</Text>
+                                    <Text style={styles.textoBoton}>{!this.state.viewMore ?  "View More" : "View Less"}</Text>
                                 </LinearGradient>
                             </TouchableOpacity>
                     </View>
                     <View>  
                         {
-                            this.props.itineraries.length > 0 &&
-                        this.props.itineraries.map((itinerary, index)=>{
-                            
-                            return <Itinerary key={index} itinerary={itinerary}/>
-                        })
+                            this.props.itineraries[0] === 'NoItineraries' ?
+                             <ImageBackground source={{uri:'https://mytinerary-lopez-zaccaro.herokuapp.com/assets/Oops.jpg'}} style={styles.noItineraries}>
+                                <Text style={[styles.textoNoItineraries]}> We don't have any itineraries yet for this city.</Text>
+                            </ImageBackground>
+                            :
+                            this.props.itineraries.map((itinerary, index)=>{
+                                return <Itinerary key={index} itinerary={itinerary} navigation={this.props.navigation} />
+                            })
                         }
                     </View>
             </ScrollView>
@@ -78,7 +81,7 @@ class City extends React.Component {
 
 const styles = StyleSheet.create({
     portada:{
-        marginTop:wp('5%'),
+        marginVertical:wp('2.5%'),
         width:wp('90%'),
         height:hp('30%'),
         borderRadius:10,
@@ -130,6 +133,25 @@ const styles = StyleSheet.create({
     },
     descriptionContainer:{
         marginBottom:hp('5%')
+    },
+    noItineraries:{
+        marginVertical:wp('10%'),
+        width:wp('90%'),
+        height:hp('30%'),
+        borderRadius:10,
+        overflow:'hidden',
+        alignSelf:'center',
+        justifyContent:'center',
+        borderWidth:2
+    },
+    textoNoItineraries:{
+        width:'100%',
+        textAlign:'center',
+        color:'white',
+        backgroundColor:'#rgba(0,0,0,0.8)',
+        paddingVertical:wp('10%'),
+        paddingHorizontal:'5%',
+        fontSize:wp('4%')
     }
 
 })
@@ -144,7 +166,6 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = {
     findItineraries: itinerariesActions.findItineraries,
     resetItineraries: itinerariesActions.resetItineraries
-
 
 };
   

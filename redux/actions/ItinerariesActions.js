@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios"
 
 const itinerariesActions = {
@@ -27,37 +28,47 @@ const itinerariesActions = {
     },
     sendComment: (comment,itineraryId)=>{
         return async(dispatch, getState)=>{
-            let user = localStorage.getItem("token")
-            if(comment.trim() !== "" && user){
-                const commentToPost = await axios.post("https://mytinerary-lopez-zaccaro.herokuapp.com/api/comments/"+itineraryId,{comment},{
-                headers:{
-                'Authorization':'Bearer '+ user
-            }})
-            return commentToPost.data.response
+            try{
+                let user = await AsyncStorage.getItem("token")
+                if(comment.trim() !== "" && user){
+                    const commentToPost = await axios.post("https://mytinerary-lopez-zaccaro.herokuapp.com/api/comments/"+itineraryId,{comment},{
+                        headers:{
+                            'Authorization':'Bearer '+ user
+                        }})
+                        return commentToPost.data.response
+                    }
+                }catch(e){
+                    console.log(e)
+                }
             }
-        }
     },
     deleteComment: (commentId, itineraryId)=>{
         return async(dispatch, getState)=>{
-            let user = localStorage.getItem("token")
+            try{
+            let user = await AsyncStorage.getItem("token")
             const comments = await axios.put("https://mytinerary-lopez-zaccaro.herokuapp.com/api/comments/"+itineraryId,{commentId,delete:true},{
                 headers:{
                 'Authorization':'Bearer '+ user
             }})
             if(comments.data.success){
                 return comments.data.response
+            }}catch(e){
+                console.log(e)
             }
         }
     },
     modifyComment: (comment, commentId, itineraryId)=>{
         return async(dispatch, getState)=>{
-            let user = localStorage.getItem("token")
+            try{
+            let user = await AsyncStorage.getItem("token")
             const comments = await axios.put("https://mytinerary-lopez-zaccaro.herokuapp.com/api/comments/"+itineraryId,{comment, commentId, delete:false},{
                 headers:{
                 'Authorization':'Bearer '+ user
             }})
             if(comments.data.success){
                 return comments.data.response
+            }}catch(e){
+                console.log(e)
             }
         }
     },

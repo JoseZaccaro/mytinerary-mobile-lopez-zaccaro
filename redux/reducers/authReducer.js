@@ -1,4 +1,4 @@
-
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const initialState = {
     user: null,
     token: null,
@@ -7,15 +7,16 @@ const initialState = {
     toastShowed:false
 }
 
+
 const authReducer = (state = initialState, action)=>{
 
-    // console.log(action)
+    // console.log(action.payload)
     // console.log(state)
     switch(action.type){
         case 'SIGN_IN':
             if(action.payload.success){
-                    if(action.payload.response.token){
-                        localStorage.setItem("token",action.payload.response.token)
+                if(action.payload.response.token){
+                    AsyncStorage.setItem("token",action.payload.response.token) 
                     }
                 }
                 return{
@@ -24,12 +25,11 @@ const authReducer = (state = initialState, action)=>{
                 }
             
         case 'SIGN_OUT':
-            localStorage.clear()
+            AsyncStorage.clear()
             return{
                 ...state,
                 token:null,
                 errores:null,
-                toastShowed:false,
                 ...action.payload
             }
         case 'TOAST_SHOWED':

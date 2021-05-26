@@ -11,68 +11,112 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp
   } from 'react-native-responsive-screen';
+import { connect } from 'react-redux';
+import authActions from '../redux/actions/authActions';
+import ItineraryMoreInfo from '../Components/ItineraryMoreInfo';
+
+
 
 const Drawer = createDrawerNavigator();
 
 const NavigatorDrawer = (props) => {
-    const [state, setState] = useState({
-        drawerIsOpen:true
-    })
-    const header = (props)=>{
+    // const [state, setState] = useState({
+    //     user:null,
+    // })  
+
+    const logOut  = ()=>{
+        props.logOut()
+    }
+
+    const header = ({navigation})=>{
         return (
         <DrawerContentScrollView>
             <View style={styles.header}>
                 <View style={styles.contenedorImagen}>
                     { 
-                    state.drawerIsOpen ?<>
-                    <TouchableWithoutFeedback onPress={()=> state.drawerIsOpen ? props.navigation.navigate('signin') : null }>
-                        <Icon name='account-circle' type='material' size={styles.iconoUsuario.fontSize} style={styles.iconoUsuario}/>
+                    !props.user ?<>
+                        <TouchableWithoutFeedback onPress={()=> navigation.navigate('signin')  }>
+                            <Icon name='account-circle' type='material' size={styles.iconoUsuario.fontSize} style={styles.iconoUsuario}/>
+                        </TouchableWithoutFeedback>
+                        <View>
+                                <Text style={styles.userName}>
+                                    Welcome!
+                                </Text>
+                        </View>
+                    </>
+                    : <>
+                    <TouchableWithoutFeedback>
+                        <Image source={{uri:props.user.image}} style={styles.imagenUsuario}/>
                     </TouchableWithoutFeedback>
                     <View>
-                            <Text style={styles.userName}>
-                                Welcome!
-                            </Text>
+                        <Text style={styles.userName}>
+                            Welcome!
+                        </Text>
+                        <Text style={styles.userNameBottom}>
+                            {props.user.firstName}
+                        </Text>
                     </View>
-                    </>
-                    : <Image source={require('../assets/icons/user.png')} style={styles.imagenUsuario}/>
+                </>
                     }
                 </View>
 
             </View>
-            <TouchableHighlight>
+            <View style={styles.body}>
+                <TouchableHighlight>
+                        <DrawerItem 
+                        style={styles.drawerItemStyle} 
+                        label="Home"
+                        icon={ () => <Icon 
+                            name="home"
+                            type='material'
+                            color='#00aced'
+                        />}
+                        onPress={()=> navigation.navigate('home')}
+                        />
+                    </TouchableHighlight>
+                <TouchableHighlight >
                     <DrawerItem 
                     style={styles.drawerItemStyle} 
-                    label="Home"
+                    label="Cities"
                     icon={ () => <Icon 
-                        name="home"
-                        type='material'
-                        color='#00aced'
+                    name="explore"
+                    type='material'
+                    color='#00aced'
                     />}
-                    onPress={()=> props.navigation.navigate('home')}
+                    onPress={()=> navigation.navigate('cities')}
                     />
                 </TouchableHighlight>
-            <TouchableHighlight >
-                <DrawerItem 
-                style={styles.drawerItemStyle} 
-                label="Cities"
-                icon={ () => <Icon 
-                name="explore"
-                type='material'
-                color='#00aced'
-                />}
-                onPress={()=> props.navigation.navigate('cities')}
-                />
-            </TouchableHighlight>
+            </View>
+            <View style={styles.footer}>
+                 { props.user ? <TouchableHighlight style={styles.drawerItemStyleLogOut} >
+                    <DrawerItem 
+                    style={styles.drawerItemStyle} 
+                    label="Log Out"
+                    icon={ () => <Icon 
+                    name="logout"
+                    type='material'
+                    reverseColor
+                    />}
+                    onPress={logOut}
+                    />
+                </TouchableHighlight>
+                : null    
+            }
+            </View>
         </DrawerContentScrollView>)
     }
-
   return (
       <Drawer.Navigator drawerContent={header} initialRouteName="home" drawerType="front" edgeWidth={15} drawerStyle={styles.drawerStyle}>
         <Drawer.Screen name="home" component={Index} />
         <Drawer.Screen name="cities" component={Cities}/>
-        <Drawer.Screen name="signin" component={SignIn}/>
-        <Drawer.Screen name="signup" component={SignUp}/>
-        <Drawer.Screen name="city" component={City}/>
+        {!props.user ? 
+        <>
+            <Drawer.Screen name="signin" component={SignIn}/>
+            <Drawer.Screen name="signup" component={SignUp}/>
+        </>
+        :null
+        }<Drawer.Screen name="city" component={City}/>
+        <Drawer.Screen name="itineraryInfo" component={ItineraryMoreInfo}/>
       </Drawer.Navigator>
   );
 }
@@ -80,10 +124,15 @@ const NavigatorDrawer = (props) => {
 const styles = StyleSheet.create({
     drawerStyle:{
         width:'65%',
+        height:hp('100%'),
+        justifyContent:'space-between'
         // backgroundColor: '#rgba(255,255,255,0.9)'
     },
     drawerItemStyle:{
         marginLeft:wp('7.5%'),
+    },
+    drawerItemStyleLogOut:{
+        marginTop:hp('10%')
     },
     header:{
         width:wp('100%'),
@@ -106,18 +155,43 @@ const styles = StyleSheet.create({
 
     },
     imagenUsuario:{
-        width:50,
-        height:50,
+        width:wp('18%'),
+        height:wp('18%'),
         backgroundColor:'#3bc9f3',
-        borderRadius:50
+        borderRadius:wp('100%')
     },
     userName:{
-        marginLeft:10,
+        marginLeft:wp('5%'),
         marginVertical:5,
-        fontSize:18,
+        fontSize:wp('5%'),
         // backgroundColor: "#DDDDDD",
-
+    },
+    userNameBottom:{
+        marginLeft:wp('5%'),
+        marginVertical:5,
+        fontSize:wp('6.5%'),
+        textAlign:'center'
+    },
+    body:{
+        width:'100%',
+        height:hp('60%')
+    },
+    footer:{    
+        height:hp('20%'),
+        width:'100%',
+        
     }
 })
 
-export default NavigatorDrawer
+const mapStateToProps = state =>{
+    return {
+        user: state.authReducer.user
+    }
+}
+
+const mapDispatchToProps = {
+    logOut: authActions.signOut
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavigatorDrawer)
